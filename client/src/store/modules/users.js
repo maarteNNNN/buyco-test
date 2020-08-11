@@ -6,9 +6,11 @@ export const users = {
     users: [],
     page: 1,
     pages: null,
+    currentIndex: 0,
   },
   mutations: {
     SET_USERS: (s, d) => (s.users = d),
+    SET_PAGES: (s, d) => (s.pages = d.length / 10),
     ADD_USER: (s, d) => s.users.push(d),
     EDIT_USER: (s, d) =>
       s.users.splice(
@@ -23,6 +25,10 @@ export const users = {
       ),
   },
   getters: {
+    getUsersByPage: s => {
+      console.log(s)
+      return s.users.slice(s.currentIndex * s.page, s.currentIndex * s.page + 10)
+    },
     getUserById: s => id => s.users.find(user => user.id === id),
     orderById: s => ord =>
       s.users.sort((a, b) => (ord === 'ASC' ? a - b : b - a)),
@@ -31,7 +37,10 @@ export const users = {
     loadUsers: ({ commit }) => {
       axios
         .get('/users')
-        .then(response => commit('SET_USERS', response.data))
+        .then(response => {
+          commit('SET_USERS', response.data)
+          commit('SET_PAGES', response.data)
+        })
         .catch(error => console.error(error))
     },
     addUser: ({ commit, userData }) =>
