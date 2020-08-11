@@ -23,12 +23,12 @@ export const users = {
         s.users.findIndex(user => user.id === 1),
         1,
       ),
+    CHANGE_PAGE: (s, c) =>
+      s.page + c >= 1 && s.page + c <= s.pages && (s.page += c),
   },
   getters: {
-    getUsersByPage: s => {
-      console.log(s)
-      return s.users.slice(s.currentIndex * s.page, s.currentIndex * s.page + 10)
-    },
+    getUsersByPage: s =>
+      s.users.slice(s.currentIndex * s.page, s.currentIndex * s.page + 10),
     getUserById: s => id => s.users.find(user => user.id === id),
     orderById: s => ord =>
       s.users.sort((a, b) => (ord === 'ASC' ? a - b : b - a)),
@@ -43,25 +43,26 @@ export const users = {
         })
         .catch(error => console.error(error))
     },
-    addUser: ({ commit, userData }) =>
+    addUser: ({ commit }, userData) =>
       axios
         .post('users', {})
         .then(response =>
           commit('ADD_USER', { userData, response: response.data }),
         )
         .catch(error => console.error(error)),
-    editUser: ({ commit, id, updateUserData }) =>
+    editUser: ({ commit }, id, updateUserData) =>
       axios
         .put(`users/${id}`, {})
         .then(response =>
           commit('EDIT_USER', { id, updateUserData, response: response.data }),
         )
         .catch(error => console.error(error)),
-    deleteUser: ({ commit, id }) =>
+    deleteUser: ({ commit }, id) =>
       axios
         .delete(`users/${id}`)
         .then(response => commit('DELETE_USER', response.data))
         .catch(error => console.error(error)),
+    changePage: ({ commit }, change) => commit('CHANGE_PAGE', change),
   },
   modules: {},
 }
