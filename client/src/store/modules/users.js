@@ -8,6 +8,10 @@ export const users = {
     pages: null,
     itemsPerPage: 10,
     shownUsers: [],
+    sorting: {
+      id: 'ASC',
+      firstName: 'ASC',
+    },
   },
   mutations: {
     SET_USERS: (s, d) => {
@@ -30,8 +34,34 @@ export const users = {
     CHANGE_PAGE: (s, c) => {
       s.page + c >= 1 && s.page + c <= s.pages && (s.page += c)
       s.shownUsers = s.users.slice(
-        s.page * s.itemsPerPage,
-        s.page * s.itemsPerPage + s.itemsPerPage,
+        s.page === 1 ? 0 : s.page * s.itemsPerPage,
+        s.page === 1
+          ? s.itemsPerPage
+          : s.page * s.itemsPerPage + s.itemsPerPage,
+      )
+    },
+    // eslint-disable-next-line
+    SORT: (s, { key, sorting }) => {
+      console.log(key, sorting)
+      s.sorting[key] = sorting
+      s.users = s.users.sort((a, b) => {
+        if (typeof a[key] === 'number') {
+          console.log('entered number')
+          return sorting === 'ASC' ? a[key] - b[key] : b[key] - a[key]
+        }
+        if (a[key] < b[key]) {
+          return sorting === 'ASC' ? 1 : -1
+        }
+        if (a[key] > b[key]) {
+          return sorting === 'ASC' ? -1 : 1
+        }
+        return 0
+      })
+      s.shownUsers = s.users.slice(
+        s.page === 1 ? 0 : s.page * s.itemsPerPage,
+        s.page === 1
+          ? s.itemsPerPage
+          : s.page * s.itemsPerPage + s.itemsPerPage,
       )
     },
   },
@@ -70,6 +100,7 @@ export const users = {
         .then(response => commit('DELETE_USER', response.data))
         .catch(error => console.error(error)),
     changePage: ({ commit }, change) => commit('CHANGE_PAGE', change),
+    sort: ({ commit }, { key, sorting }) => commit('SORT', { key, sorting }),
   },
   modules: {},
 }
