@@ -30,7 +30,6 @@ export default {
       this.$store.dispatch('users/changePage', change)
     },
     sort(key) {
-      console.log(key)
       let sorting = this.sorting[key] === 'ASC' ? 'DESC' : 'ASC'
       this.$store.dispatch('users/sort', { key, sorting })
     },

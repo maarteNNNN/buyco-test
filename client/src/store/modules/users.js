@@ -42,11 +42,9 @@ export const users = {
     },
     // eslint-disable-next-line
     SORT: (s, { key, sorting }) => {
-      console.log(key, sorting)
       s.sorting[key] = sorting
       s.users = s.users.sort((a, b) => {
         if (typeof a[key] === 'number') {
-          console.log('entered number')
           return sorting === 'ASC' ? a[key] - b[key] : b[key] - a[key]
         }
         if (a[key] < b[key]) {
