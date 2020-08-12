@@ -36,11 +36,6 @@ export const users = {
     },
   },
   getters: {
-    getUsersByPage: s =>
-      s.users.slice(
-        s.currentIndex * s.page,
-        s.currentIndex * s.page + s.itemsPerPage,
-      ),
     getUserById: s => id => s.users.find(user => user.id === id),
     orderById: s => ord =>
       s.users.sort((a, b) => (ord === 'ASC' ? a - b : b - a)),
