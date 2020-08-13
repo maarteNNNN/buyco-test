@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     p Olá, bem vindo no projeto, feito pelo Maarten. Tomará que vocês gostarem :)
-    p Qualquer pergunta que você estiver pode me mandar ou ligar.
+    p Qualquer duvida que estiver pode me mandar ou ligar.
      |
      br
      small

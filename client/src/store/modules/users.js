@@ -20,9 +20,9 @@ export const users = {
     },
     SET_PAGES: (s, d) => (s.pages = d.length / 10),
     ADD_USER: (s, d) => s.users.push(d),
-    EDIT_USER: (s, d) =>
+    EDIT_USER: (s, id, d) =>
       s.users.splice(
-        s.users.findIndex(user => user.id === 1),
+        s.users.findIndex(user => user.id === id),
         1,
         d,
       ),
@@ -70,7 +70,9 @@ export const users = {
     },
   },
   getters: {
-    getUserById: s => id => s.users.find(user => user.id === id),
+    getUserById: s => id => {
+      return s.users.find(user => user.id === parseInt(id))
+    },
     orderById: s => ord =>
       s.users.sort((a, b) => (ord === 'ASC' ? a - b : b - a)),
   },
@@ -89,12 +91,10 @@ export const users = {
         .post('users', userData)
         .then(() => commit('ADD_USER', { id: userData.id, ...userData.body }))
         .catch(error => console.error(error)),
-    editUser: ({ commit }, id, updateUserData) =>
+    editUser: ({ commit }, { id, data }) =>
       axios
-        .put(`users/${id}`, {})
-        .then(response =>
-          commit('EDIT_USER', { id, updateUserData, response: response.data }),
-        )
+        .put(`users/${id}`, data)
+        .then(() => commit('EDIT_USER', id, data))
         .catch(error => console.error(error)),
     deleteUser: ({ commit }, id) =>
       axios

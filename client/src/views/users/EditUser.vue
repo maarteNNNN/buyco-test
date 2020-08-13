@@ -25,12 +25,12 @@
       label Country
       input(v-model="formData.address.country" placeholder="Country")
     .input-field
-      a.button(@click='register') Register
+      a.button(@click='edit') Edit
 </template>
 
 <script>
 export default {
-  name: 'RegisterUser',
+  name: 'EditUser',
   data: function() {
     return {
       formData: {
@@ -52,9 +52,17 @@ export default {
       },
     }
   },
+  mounted: function() {
+    this.formData = this.$store.getters['users/getUserById'](
+      this.$route.params.id,
+    )
+  },
   methods: {
-    register: function() {
-      this.$store.dispatch('users/addUser', this.formData)
+    edit: function() {
+      this.$store.dispatch('users/editUser', {
+        id: this.$route.params.id,
+        data: this.formData,
+      })
       this.$router.push('/users')
     },
   },
