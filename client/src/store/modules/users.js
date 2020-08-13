@@ -10,7 +10,7 @@ export const users = {
     shownUsers: [],
     sorting: {
       id: 'ASC',
-      firstName: 'ASC',
+      firstName: null,
     },
   },
   mutations: {
@@ -42,6 +42,7 @@ export const users = {
     },
     // eslint-disable-next-line
     SORT: (s, { key, sorting }) => {
+      Object.keys(s.sorting).forEach(key => (s.sorting[key] = null))
       s.sorting[key] = sorting
       s.users = s.users.sort((a, b) => {
         if (typeof a[key] === 'number') {
