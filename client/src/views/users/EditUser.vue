@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  div(v-if="formData")
     .input-field
       label First Name
       input(v-model="formData.firstName" placeholder="First Name")
@@ -33,29 +33,13 @@ export default {
   name: 'EditUser',
   data: function() {
     return {
-      formData: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        address: {
-          zipCode: '',
-          city: '',
-          streetAddress: '',
-          country: '',
-          state: '',
-          geo: {
-            latitude: '',
-            longitude: '',
-          },
-        },
-      },
+      formData: null,
     }
   },
-  mounted: function() {
-    this.formData = this.$store.getters['users/getUserById'](
-      this.$route.params.id,
-    )
+  mounted: async function() {
+    await this.$store.dispatch('users/getUserById', this.$route.params.id)
+    this.formData = await this.$store.getters['users/getUserById']
+    console.log(this.formData)
   },
   methods: {
     edit: function() {

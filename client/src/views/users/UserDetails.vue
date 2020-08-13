@@ -1,6 +1,6 @@
 <template lang="pug">
-  div
-    div(v-for="item in user")
+  div(v-if="selectedUser")
+    div(v-for="item in selectedUser")
       label(v-if="item[0] !== 'address'")
         strong {{ translations[item[0]] }}:&nbsp;
       span(v-if="item[0] !== 'address'") {{ item[1] }}
@@ -10,7 +10,13 @@
         span(v-if="addressItem[0] !== 'geo'") {{ addressItem[1] }}
     label
       strong User Location:
-
+    l-map(
+      style="height: 80%; width: 100%"
+      :zoom="zoom"
+      :center="center"
+      @update:zoom="zoomUpdated"
+      @update:center="centerUpdated"
+      @update:bounds="boundsUpdated")
 
 </template>
 
@@ -21,7 +27,7 @@ export default {
   name: 'UserDetails',
   data: function() {
     return {
-      user: [],
+      selectedUser: null,
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       zoom: 3,
       center: [47.41322, -1.219482],
@@ -40,10 +46,11 @@ export default {
       },
     }
   },
-  mounted: function() {
-    this.user = Object.entries(
-      this.$store.getters['users/getUserById'](this.$route.params.id),
-    )
+  mounted: async function() {
+    await this.$store.dispatch('users/getUserById', this.$route.params.id)
+    const user = await this.$store.getters['users/getUserById']
+    this.selectedUser = Object.entries(user)
+    this.center = [user.address.geo.latitude, user.address.geo.longitude]
   },
   components: {
     LMap,

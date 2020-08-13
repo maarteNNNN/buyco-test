@@ -12,6 +12,7 @@ export const users = {
       id: 'ASC',
       firstName: null,
     },
+    selectedUser: {},
   },
   mutations: {
     SET_USERS: (s, d) => {
@@ -70,13 +71,10 @@ export const users = {
           : s.page * s.itemsPerPage + s.itemsPerPage,
       )
     },
+    SET_SELECTED_USER: (s, u) => (s.selectedUser = u),
   },
   getters: {
-    getUserById: s => id => {
-      return s.users.find(user => user.id === parseInt(id))
-    },
-    orderById: s => ord =>
-      s.users.sort((a, b) => (ord === 'ASC' ? a - b : b - a)),
+    getUserById: async s => s.selectedUser,
   },
   actions: {
     loadUsers: ({ commit }) => {
@@ -105,6 +103,13 @@ export const users = {
         .catch(error => console.error(error)),
     changePage: ({ commit }, change) => commit('CHANGE_PAGE', change),
     sort: ({ commit }, { key, sorting }) => commit('SORT', { key, sorting }),
+    // eslint-disable-next-line
+    getUserById: async ({ commit }, id) => {
+      return await axios
+        .get(`users/${id}`)
+        .then(response => commit('SET_SELECTED_USER', response.data))
+        .catch(e => e)
+    },
   },
   modules: {},
 }
