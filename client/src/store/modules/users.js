@@ -31,13 +31,14 @@ export const users = {
       s.users.splice(
         s.users.findIndex(user => user.id === id),
         1,
-      ),
-        (s.shownUsers = s.users.slice(
-          s.page === 1 ? 0 : s.page * s.itemsPerPage,
-          s.page === 1
-            ? s.itemsPerPage
-            : s.page * s.itemsPerPage + s.itemsPerPage,
-        ))((s.pages = s.users.length / s.itemsPerPage))
+      )
+      s.shownUsers = s.users.slice(
+        s.page === 1 ? 0 : s.page * s.itemsPerPage,
+        s.page === 1
+          ? s.itemsPerPage
+          : s.page * s.itemsPerPage + s.itemsPerPage,
+      )
+      s.pages = s.users.length / s.itemsPerPage
     },
     CHANGE_PAGE: (s, c) => {
       s.page + c >= 1 && s.page + c <= s.pages && (s.page += c)
