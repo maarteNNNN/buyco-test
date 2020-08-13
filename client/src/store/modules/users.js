@@ -26,11 +26,16 @@ export const users = {
         1,
         d,
       ),
-    DELETE_USER: s =>
+    DELETE_USER: (s, id) => {
       s.users.splice(
-        s.users.findIndex(user => user.id === 1),
+        s.users.findIndex(user => user.id === id),
         1,
       ),
+        s.shownUsers.splice(
+          s.shownUsers.findIndex(user => user.id === id),
+          1,
+        )
+    },
     CHANGE_PAGE: (s, c) => {
       s.page + c >= 1 && s.page + c <= s.pages && (s.page += c)
       s.shownUsers = s.users.slice(
@@ -94,7 +99,7 @@ export const users = {
     deleteUser: ({ commit }, id) =>
       axios
         .delete(`users/${id}`)
-        .then(response => commit('DELETE_USER', response.data))
+        .then(() => commit('DELETE_USER', id))
         .catch(error => console.error(error)),
     changePage: ({ commit }, change) => commit('CHANGE_PAGE', change),
     sort: ({ commit }, { key, sorting }) => commit('SORT', { key, sorting }),

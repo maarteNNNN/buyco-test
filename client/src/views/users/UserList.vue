@@ -17,6 +17,9 @@ export default {
       let sorting = this.sorting[key] === 'ASC' ? 'DESC' : 'ASC'
       this.$store.dispatch('users/sort', { key, sorting })
     },
+    deleteUser(id) {
+      this.$store.dispatch('users/deleteUser', id)
+    }
   },
 }
 </script>
@@ -42,7 +45,8 @@ export default {
             router-link(:to="`/users/${user.id}`") {{ user.id }}
           td
             router-link(:to="`/users/${user.id}`") {{ user.firstName }} {{ user.lastName }}
-          td &#x1F5D1;
+          td
+            a.clickable(@click="deleteUser(user.id)") &#x1F5D1;
         tr
           td.clickable(v-if='page !== 1' @click='changePage(-1)') Previous Page
           td(v-else)
