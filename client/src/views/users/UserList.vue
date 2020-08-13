@@ -56,7 +56,7 @@ export default {
           td.clickable(v-if='page !== 1' @click='changePage(-1)') Previous Page
           td(v-else)
           td.clickable(v-if='page !== pages - 1' @click='changePage(+1)'  colspan="3") Next Page
-          td(v-else)
+          td(v-else colspan="3")
 </template>
 
 <style lang="scss" scoped>

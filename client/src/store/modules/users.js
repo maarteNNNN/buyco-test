@@ -18,7 +18,7 @@ export const users = {
       s.users = d
       s.shownUsers = d.slice(0, s.itemsPerPage)
     },
-    SET_PAGES: (s, d) => (s.pages = d.length / 10),
+    SET_PAGES: (s, d) => (s.pages = d.length / s.itemsPerPage),
     ADD_USER: (s, d) => s.users.push(d),
     EDIT_USER: (s, id, d) =>
       s.users.splice(
@@ -31,10 +31,13 @@ export const users = {
         s.users.findIndex(user => user.id === id),
         1,
       ),
-        s.shownUsers.splice(
-          s.shownUsers.findIndex(user => user.id === id),
-          1,
-        )
+        (s.shownUsers = s.users.slice(
+          s.page === 1 ? 0 : s.page * s.itemsPerPage,
+          s.page === 1
+            ? s.itemsPerPage
+            : s.page * s.itemsPerPage + s.itemsPerPage,
+        ))
+      (s.pages = s.users.length / s.itemsPerPage)
     },
     CHANGE_PAGE: (s, c) => {
       s.page + c >= 1 && s.page + c <= s.pages && (s.page += c)
