@@ -16,6 +16,7 @@ export default {
 <style lang="scss" scoped>
 .navbar {
   display: flex;
+  z-index: 1000;
   width: 100%;
   background-color: #283e99;
   position: fixed;
