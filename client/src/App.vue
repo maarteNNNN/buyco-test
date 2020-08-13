@@ -1,7 +1,20 @@
 <template lang="pug">
   #app
-    router-view
+    Navigation
+    .container
+      router-view
 </template>
+
+<script>
+import Navigation from './components/Navigation'
+
+export default {
+  name: 'App',
+  components: {
+    Navigation,
+  },
+}
+</script>
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
@@ -13,6 +26,10 @@ body {
     text-decoration: none;
     color: inherit;
   }
+}
+
+.container {
+  margin-top: 40px;
 }
 
 $max: 50;

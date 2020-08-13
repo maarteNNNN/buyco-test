@@ -31,7 +31,7 @@ export default {
             span.p-l-5(v-if="sorting.id === 'ASC'") &#x25B2;
             span.p-l-5(v-else-if="sorting.id") &#x25BC;
             span.p-l-5(v-else) &#x25B2; &#x25BC;
-          th.clickable(@click="sort('firstName')") name
+          th.clickable(@click="sort('firstName')" colspan="2") name
             |
             span.p-l-5(v-if="sorting.firstName === 'DESC'") &#x25B2;
             span.p-l-5(v-else-if="sorting.firstName") &#x25BC;
@@ -42,10 +42,11 @@ export default {
             router-link(:to="`/users/${user.id}`") {{ user.id }}
           td
             router-link(:to="`/users/${user.id}`") {{ user.firstName }} {{ user.lastName }}
+          td &#x1F5D1;
         tr
           td.clickable(v-if='page !== 1' @click='changePage(-1)') Previous Page
           td(v-else)
-          td.clickable(v-if='page !== pages - 1' @click='changePage(+1)') Next Page
+          td.clickable(v-if='page !== pages - 1' @click='changePage(+1)'  colspan="2") Next Page
           td(v-else)
 </template>
 
