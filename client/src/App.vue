@@ -26,10 +26,19 @@ body {
     text-decoration: none;
     color: inherit;
   }
+  margin: 0;
+  width: 100vw;
 }
 
 .container {
-  margin-top: 40px;
+  margin: 40px 50px 10px 50px;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: auto;
+  @media screen and (max-width: 768px) {
+    margin: 40px 10px 10px;
+  }
 }
 
 $max: 50;
@@ -45,4 +54,6 @@ $unit: 'px';
   }
 }
 @include list-loop('.p-l-', 'padding-left');
+@include list-loop('.p-t-', 'padding-top');
+@include list-loop('.p-a-', 'padding');
 </style>

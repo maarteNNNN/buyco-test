@@ -81,10 +81,8 @@ export const users = {
     },
     addUser: ({ commit }, userData) =>
       axios
-        .post('users', {})
-        .then(response =>
-          commit('ADD_USER', { userData, response: response.data }),
-        )
+        .post('users', userData)
+        .then(() => commit('ADD_USER', { id: userData.id, ...userData.body }))
         .catch(error => console.error(error)),
     editUser: ({ commit }, id, updateUserData) =>
       axios
