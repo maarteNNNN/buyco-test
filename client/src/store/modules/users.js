@@ -36,8 +36,7 @@ export const users = {
           s.page === 1
             ? s.itemsPerPage
             : s.page * s.itemsPerPage + s.itemsPerPage,
-        ))
-      (s.pages = s.users.length / s.itemsPerPage)
+        ))((s.pages = s.users.length / s.itemsPerPage))
     },
     CHANGE_PAGE: (s, c) => {
       s.page + c >= 1 && s.page + c <= s.pages && (s.page += c)

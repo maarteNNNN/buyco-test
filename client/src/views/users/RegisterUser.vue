@@ -74,6 +74,7 @@ export default {
     padding: 10px;
     box-sizing: border-box;
     border: 1px solid #283e99;
+    color: darken(#283e99, 10);
     ::placeholder {
       padding: 10px;
     }
